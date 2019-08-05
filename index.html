@@ -2,7 +2,6 @@
 <head>
   <script src="./frmwrk-blink.js"></script>
   <script src="./frmwrk-copy.js"></script>
-  <script src="./frmwrk-blink.js"></script>
   <script src="./frmwrk-counter.js"></script>
   <script src="./my-element.js"></script>
   <style>
@@ -29,5 +28,15 @@
   <my-element></my-element>
 
   <script src="./getters-setters.js"></script>
+
+  <script>
+    console.log('-----------------------')
+    console.log(customElements)
+    Promise.all([
+        customElements.whenDefined('frmwrk-copy'),
+        customElements.whenDefined('frmwrk-blink'),
+      ])
+        .then(_ => console.log('copy and blink defined'));
+  </script>
 </body>
 </html>
