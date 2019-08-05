@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title>Web Components - Shadow Root</title>
+    <!-- Import component - This file defines the hello-world component
+    This must be inported BEFORE the element appears in the DOM -->
+    <script src="./hello-world.js"></script>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+        <h1>Web Components - Shadow Root</h1>
+        <p>Below is a simple web component.</p>
+
+        <!-- Component names must contain a hyphen!
+        Components can not be self closing tags <name /> -->
+
+        <hello-world></hello-world>
+        <hello-world name="shadow"></hello-world>
+
+    </div>
+
+    <script>
+      // const helloWorld = document.querySelector('hello-world')
+      // console.log(helloWorld.getAttribute('name'))
+
+      // setTimeout(() => {
+      //   console.log('?????')
+      //   helloWorld.setAttribute('name', 'WTH!')
+      // }, 4000)
+    </script>
+  </body>
+</html>
