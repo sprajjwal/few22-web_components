@@ -29,7 +29,7 @@ class Blink extends HTMLElement {
   }
 
   blink() {
-    console.log('blink!')
+    // console.log('blink!')
     this._show = !this._show
     this.style.color = this._show ? '#000' : 'transparent'
   }
