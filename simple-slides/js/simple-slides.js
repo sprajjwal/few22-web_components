@@ -36,6 +36,8 @@
   // This class will contain the code that backs the new element
   // The should extend HTMLElement
   class SimpleSlides extends HTMLElement {
+
+    // --------
     constructor() {
       super() // You must call super!
 
@@ -47,15 +49,18 @@
       this._imgA = this._shadowRoot.querySelector('#img-a')
       this._imgB = this._shadowRoot.querySelector('#img-b')
       // Keep track of the index of the current image displayed
-      this._index = 0;
+      this._index = 1 
+      this._time = Number(this.getAttribute('time')) || 3000
+      this._paused = false
     }
 
+    // ---------
     // Lifecycle method - Called when the element is added to the DOM
     connectedCallback() {
       // Start the timer
       this._timer = setInterval(() => {
         this._nextImg()
-      }, 3000)
+      }, this._time)
 
       // customElements.whenDefined('simple-slides').then(() => {
         // Call on a couple setup methods 
@@ -70,6 +75,46 @@
     disconnectedCallback() {
       clearInterval(this._timer)
     }
+
+
+    // ------------
+    // Handle Attribues
+
+    static get observableAttibutes() {
+      return ['time', 'paused']
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+      switch(name) {
+        case 'time': 
+          this.time = newValue
+          // TODO: update timer
+          break
+        case 'paused': 
+          this.paused = newValue
+          break
+      }
+    }
+
+    get time() {
+      return this._time
+    }
+
+    set time(val) {
+      this.setAttribute(time, val)
+      this._time = val
+    }
+
+    get paused() {
+      return this._paused
+    }
+
+    set paused(val) {
+      this.setAttribute(val)
+      this._paused = val
+    }
+
+    // ---------
 
     // Helper method - This method finds the min width and height 
     // between all images. 
@@ -127,19 +172,22 @@
       return Array.from(this.querySelectorAll('img'))
     }
 
-    // Helper method - Shows the next image. The current img is moved
-    // imgB and the new img is set to im
+    // Helper method - Shows the next image. The crossfade is handled by assigning
+    // the current image src to imgB (in front) and the new image src to imgA 
+    // (behind). The n animation for imgB is started with the options for 1 iteration
+    // play forward (otherwise it goes back to the starting value at the end)
     _showImg() {
       const imgs = this._imgs
       const img = imgs[this._index]
-      this._imgA.src = this._imgB.src
+      this._imgB.src = this._imgA.src
       // Restarting a CSS animation is not as easy as you'd think
       // https://css-tricks.com/restart-css-animation/
       this._imgB.style.animation = ''
       void this._imgB.offsetWidth
-      this._imgB.style.animation = 'fade-out 3s'
+      this._imgB.style.animation = 'fade-out 3s forwards'
+      this._imgB.style.animationIterationCount = '1'
       // this._imgA.style.opacity = 0
-      this._imgB.src = img.src
+      this._imgA.src = img.src
     }
 
     // Helper method - advances the index then shows the new image
