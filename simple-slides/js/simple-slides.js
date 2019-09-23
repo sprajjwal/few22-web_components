@@ -198,6 +198,6 @@
   }
 
   // ---
-  // Define the element 
+  // Define the element <simple-slides>
   customElements.define('simple-slides', SimpleSlides)
 })()

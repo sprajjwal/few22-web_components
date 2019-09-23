@@ -5,6 +5,16 @@
 // Some elements can't have a shadow root attached to them 
 // for security reasons.
 
+// The clode below defines a Web Component
+// The Component is defined as a class
+// You register this class with the document to define a new tag
+// Your new tag can define a shadow DOM call it the shadowRoot
+// Within the shadowRoot you can define an HTML structure
+// You can also assign styles
+// Within the class think of "this" as actual tag that exists
+// Everything that exists in the shadows will be attached to the shadow root that you create
+
+// Make a new Component
 class HelloWorld extends HTMLElement {
   constructor() {
     super(); // MUST call super!
@@ -23,10 +33,10 @@ class HelloWorld extends HTMLElement {
   }
 
   // Handle changes to an attribute
-  attributeChangedCallback(name, oldValue, newValue) {
+  attributeChangedCallback(attributeName, oldValue, newValue) {
     console.log('att changed call back')
-    console.log(name, oldValue, newValue)
-    if (name === 'name') {
+    console.log(attributeName, oldValue, newValue)
+    if (attributeName === 'name') {
       this._name = newValue
       this.render()
     }
@@ -39,12 +49,12 @@ class HelloWorld extends HTMLElement {
     this.render()
   }
 
+  // User defined method to 'render' this component.
   render() {
     this._shadowRoot.innerHTML = `<p>hello world ${this._name}</p>`;
   }
 }
 customElements.define('hello-world', HelloWorld);
-
 // ---------
 
 

@@ -28,10 +28,6 @@
         align-items: center;
       }
 
-      #inner-container > * {
-
-      }
-
     </style>
     <div id="container">
       <div id="inner-container"></div>
@@ -64,10 +60,12 @@
       // Keep track of the index of the current image displayed
       this._index = 0
       this._time = Number(this.getAttribute('time')) || 3000
+      this._vertical = this.getAttribute('vertical')
       this._paused = false // TODO: use this to pause the slides
 
       // Need to setup the images 
       this._setupImgs()
+      this._arrangeImgs()
     }
 
     // Helper method - sets up the images in the slides
@@ -77,6 +75,14 @@
       this._imgs.forEach((img) => {
         this._innerContainer.appendChild(img.cloneNode())
       })
+    }
+
+    _arrangeImgs() {
+      if (this._vertical === null) {
+        this._innerContainer.style.flexDirection = 'column'
+      } else {
+        this._innerContainer.style.flexDirection = 'row'
+      }
     }
 
     // ---------
@@ -99,7 +105,7 @@
     // Handle Attribues
 
     static get observableAttibutes() {
-      return ['time', 'paused']
+      return ['time', 'paused', 'vertical']
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
@@ -110,6 +116,10 @@
           break
         case 'paused': 
           this.paused = newValue
+          break
+        case 'vertical':
+          this._vertical = newValue
+          this._arrangeImgs()
           break
       }
     }
@@ -133,6 +143,16 @@
     set paused(val) {
       this.setAttribute(val)
       this._paused = val
+    }
+
+    get vertical() {
+      return this._vertical
+    }
+
+    set vertical(val) {
+      this._vertical = val
+      this.setAttribute('vertical', val)
+      this._arrangeImgs()
     }
 
     // ---------
@@ -161,8 +181,15 @@
       this._index = (this._index + 1) % this._imgs.length
       // get the width of the container
       const w = this.style.width
+      const h = this.style.height
       // Slide _index * -w (note the -)
-      this._innerContainer.style.left = `calc(${w} * -${this._index})`
+      if (this._vertical === null) {
+        this._innerContainer.style.top = `calc(${h} * -${this._index})`
+        this._innerContainer.style.left = 0
+      } else {
+        this._innerContainer.style.left = `calc(${w} * -${this._index})`
+        this._innerContainer.style.top = 0
+      }
     }
   }
 
