@@ -23,37 +23,43 @@ class HelloWorld extends HTMLElement {
     // open: Elements of the shadow root are accessible from JavaScript outside the root
     // closed: Denies access to the node(s) of a closed shadow root from JavaScript outside it
     
-    // Define a property for this element
-    this._name = ''
+    this._name = null // Handle default values in connectedCallBack()
+    console.log('---- constructor ----')
+    console.log(this.innerText)
+    console.log(this.innerHTML)
   }
+
+  // Lifecycle method called when this component is appeded to the DOM
+  connectedCallback() {
+    const name = this.getAttribute('name')
+    this._name = name !== null ? name : '???'
+    this.render()
+
+    console.log('---- connected ----')
+    console.log(this.innerText)
+    console.log(this.innerHTML)
+  }
+  
 
   // Defines the attributes accessible to JS
   static get observedAttributes() {
-    return ['name'] // List an array of names
+    return ['name', 'stuff', 'width'] // List an array of names
   }
 
   // Handle changes to an attribute
   attributeChangedCallback(attributeName, oldValue, newValue) {
-    console.log('att changed call back')
-    console.log(attributeName, oldValue, newValue)
     if (attributeName === 'name') {
       this._name = newValue
       this.render()
     }
   }
 
-  // Lifecycle method called when this component is appeded to the DOM
-  connectedCallback() {
-    const name = this.getAttribute('name')
-    this._name = name ? name : ''
-    this.render()
-  }
-
   // User defined method to 'render' this component.
   render() {
-    this._shadowRoot.innerHTML = `<p>hello world ${this._name}</p>`;
+    this._shadowRoot.innerHTML = `<p>hello world - ${this._name}</p>`;
   }
 }
+
 customElements.define('hello-world', HelloWorld);
 // ---------
 

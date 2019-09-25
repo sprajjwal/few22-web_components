@@ -1,9 +1,6 @@
 <html>
   <head>
     <title>Web Components - Shadow Root</title>
-    <!-- Import component - This file defines the hello-world component
-    This must be inported BEFORE the element appears in the DOM -->
-    <script src="./hello-world.js"></script>
     <style>
       body {
         display: flex;
@@ -20,10 +17,14 @@
         <!-- Component names must contain a hyphen!
         Components can not be self closing tags <name /> -->
 
-        <hello-world></hello-world>
-        <hello-world name="shadow"></hello-world>
+        <hello-world>Inner Text message</hello-world>
+        <!-- <hello-world name="shadow"></hello-world>
+        <hello-world name="Anything"></hello-world> -->
 
     </div>
+
+    <!-- Important place this at the end of the body tag -->
+    <script src="./hello-world.js"></script>
 
     <script>
       // const helloWorld = document.querySelector('hello-world')
