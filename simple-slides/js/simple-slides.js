@@ -76,7 +76,6 @@
       clearInterval(this._timer)
     }
 
-
     // ------------
     // Handle Attribues
 
