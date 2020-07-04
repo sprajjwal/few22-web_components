@@ -1,202 +1,118 @@
-(function() {
-  // Define a template - This is the default markup 
-  // that will live in the shadow root. 
-  // This markup also includes styles in the form of a 
-  // style tag. 
-  const template = document.createElement('template')
-  template.innerHTML = `
-    <style>
-      :host > div {
-        position: relative; /* imgs are position absolute */
-        border: 4px solid #000; 
-        display: inline-block;
-        overflow: hidden;
-      }
 
-      #img-a, #img-b {
-        /* Stack these images up b in front a */
-        position: absolute;
-        left: 0; 
-        top: 0;
-      }
+// Creates a simple slideshow
 
-      /* Use this to animate the crossfade */
-      @keyframes fade-out {
-        0% { opacity: 1; }
-        100% { opacity: 0; }
-      }
-    </style>
-    <div class="container">
-      <img id="img-a"> <!-- a is behind b -->
-      <img id="img-b">
-    </div>
-  `
-  // ---
+/*
 
-  // This class will contain the code that backs the new element
-  // The should extend HTMLElement
-  class SimpleSlides extends HTMLElement {
+- Challenge - 1 - 
 
-    // --------
-    constructor() {
-      super() // You must call super!
+The goal is to make a slide show carousel. Follow the 
+comments in the code sample below. 
 
-      // Create a shadow root node
-      this._shadowRoot = this.attachShadow({ mode: 'open' })
-      // Append a clone of the template to the shadow root
-      this._shadowRoot.appendChild(template.content.cloneNode(true))
-      // Get a reference to the the img tags in the template
-      this._imgA = this._shadowRoot.querySelector('#img-a')
-      this._imgB = this._shadowRoot.querySelector('#img-b')
-      // Keep track of the index of the current image displayed
-      this._index = 1 
-      this._time = Number(this.getAttribute('time')) || 3000
-      this._paused = false
-    }
+- Challenge - 2 - 
 
-    // ---------
-    // Lifecycle method - Called when the element is added to the DOM
-    connectedCallback() {
-      // Start the timer
-      this._timer = setInterval(() => {
-        this._nextImg()
-      }, this._time)
+If everything is working you should be able to control the 
+time and transition speed of the slideshow by changing the 
+attribues on the tag. 
 
-      // customElements.whenDefined('simple-slides').then(() => {
-        // Call on a couple setup methods 
-        this._setSize()
-        this._showImg()
-        // Set the src for the first image
-        this._imgB.src = this._imgs[0].src
-      // })
-    }
+- Challenge - 3 - 
 
-    // Lifecycle method - Called when the element is removed from the DOM
-    disconnectedCallback() {
-      clearInterval(this._timer)
-    }
+Add a new attribute and property to create a pause state. 
+The goal is to be able to stop and start the slideshow. 
 
-    // ------------
-    // Handle Attribues
+*/
 
-    static get observableAttibutes() {
-      return ['time', 'paused']
-    }
+class SimpleSlides extends HTMLElement {
+  constructor() {
+    super() 
+    
+    // Use this.getAttribute to get the width, height, time, and transition
+    this._width = this.getAttribute('width')
 
-    attributeChangedCallback(name, oldValue, newValue) {
-      switch(name) {
-        case 'time': 
-          this.time = newValue
-          // TODO: update timer
-          break
-        case 'paused': 
-          this.paused = newValue
-          break
-      }
-    }
 
-    get time() {
-      return this._time
-    }
+    // Create a shadow root node
+    this._shadowRoot = this.attachShadow({ mode: 'open' })
 
-    set time(val) {
-      this.setAttribute(time, val)
-      this._time = val
-    }
+    // Create a couple elements to manage slides
+    // Create a container div
+    // Set the width, height, border, and overflow
+    // Append container to shadowroot
+    this._container = document.createElement('div')
 
-    get paused() {
-      return this._paused
-    }
+    
+    // Create an inner div
+    // Add some styles display: flex, 
+    // set transition to the value you got from the attribute add 'ms'
+    // Append this to container
 
-    set paused(val) {
-      this.setAttribute(val)
-      this._paused = val
-    }
 
-    // ---------
+    // Get array of images
+    this._imgs = Array.from(this.querySelectorAll('img'))
+    // loop over all of the the images in the array and append then to the inner div
 
-    // Helper method - This method finds the min width and height 
-    // between all images. 
-    _setSize() {
-      // Let's reduce the array of imgs to a size object with 
-      // a width and height. 
-      // The goal is to get the smallest width and smallest height. 
-      // With these numbers you can create a rectangle that will 
-      // show any of the images without any blank space.
+    
+    // Keep track of the index of the current image displayed
+    this._index = 0
+    
+  }
 
-      const size = this._imgs.reduce((obj, img, i) => {
-        // TODO: The width and height need to be defined on the img 
-        // tags inside the simple-slides. If these are not defined 
-        // we need to make best guess or provide a warning? 
+  _addTimer() {
+    // use setInterval with the interval set to the time you got from the attribute
+    // The callback should call this._nextImg() 
+    // Save a reference to your timer so you can remove it
+    
+  }
 
-        const w = img.width // Number(img.getAttribute('width'))
-        const h = img.height // Number(img.getAttribute('height'))
+  _removeTimer() {
+    // use clearInterval() to remove your interval. You need to include the timer reference
+
+  }
+
+  connectedCallback() {
+    // Call this._addTimer() here 
+
+  }
+
+  disconnectedCallback() {
+    // Call this._removeTimer() here. 
+  }
+  
+  static get observedAttributes() {
+    // List the properties you component is observing here: 
+    // time, transition...
+    return []
+  }
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    // Set properties when attributes change
+    switch(name) {
+      case 'time': 
+        // set your time property
+        // remove your timer 
+        // add a new timer
         
-        // If it's the first image just get the width and height
-        if (i === 0) {
-          obj.width = w
-          obj.height = h 
-          return obj
-        }
+        break
+    
+      case 'transition':
+        // Set your transition property
+        // Set the transition style on the inner div be sure to 'ms'
+        
+        break 
 
-        // Otherwise...
+      case 'paused': 
+        // Stretch challenge Set a pause attribute 
 
-        // Check if this width is smaller 
-        if (w < obj.width) {
-          obj.width = w
-        }
-        // Check if the height is smaller
-        if (h < obj.height) {
-          obj.height = h
-        }
-        // We're reducing return the acculator
-        return obj
-      }, { width: null, height: null }) // Define the default acculator
+        break
 
-      // Now that we've got the size setup the container. 
-      const container = this._shadowRoot.querySelector('.container')
-      container.style.width = `${size.width}px`
-      container.style.height = `${size.height}px`
-    }
-
-    // getter - returns the array of methods. 
-    // TODO: Better to get the src strings from all of the images 
-    // and put these in an array
-    // TODO: Need to handle the situation where a new img could be 
-    // added to the DOM. There is probably a Component updated 
-    // callback or other observer...
-    get _imgs() {
-      // querySelectorAll() returns an Array Like convert it to a 
-      // standard Array with Array.from(arrayLikeObject)
-      return Array.from(this.querySelectorAll('img'))
-    }
-
-    // Helper method - Shows the next image. The crossfade is handled by assigning
-    // the current image src to imgB (in front) and the new image src to imgA 
-    // (behind). The n animation for imgB is started with the options for 1 iteration
-    // play forward (otherwise it goes back to the starting value at the end)
-    _showImg() {
-      const imgs = this._imgs
-      const img = imgs[this._index]
-      this._imgB.src = this._imgA.src
-      // Restarting a CSS animation is not as easy as you'd think
-      // https://css-tricks.com/restart-css-animation/
-      this._imgB.style.animation = ''
-      void this._imgB.offsetWidth
-      this._imgB.style.animation = 'fade-out 3s forwards'
-      this._imgB.style.animationIterationCount = '1'
-      // this._imgA.style.opacity = 0
-      this._imgA.src = img.src
-    }
-
-    // Helper method - advances the index then shows the new image
-    _nextImg() {
-      this._index = (this._index + 1) % this._imgs.length
-      this._showImg()
     }
   }
 
-  // ---
-  // Define the element <simple-slides>
-  customElements.define('simple-slides', SimpleSlides)
-})()
+  _nextImg() {
+    // Add 1 to index
+    // Set translate the inner div to width * index * -1
+    // You need to translate the slides one slide width to the left 
+    // each time this method is called. 
+
+  }
+}
+
+customElements.define('simple-slides', SimpleSlides)
