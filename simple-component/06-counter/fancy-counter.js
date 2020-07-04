@@ -120,6 +120,7 @@ This component has some practical uses. It some better styles.
 
 - Challenge - 2 - 
 
-- Replace the 
+- Replace the display element, currently a div, with an input. 
+- Add a listener looking for change events. Update the _value when a change occurs. 
 
 */
