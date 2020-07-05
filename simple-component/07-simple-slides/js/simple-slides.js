@@ -55,6 +55,7 @@ class SimpleSlides extends HTMLElement {
     
   }
 
+  // Use this add the interval/timer
   _addTimer() {
     // use setInterval with the interval set to the time you got from the attribute
     // The callback should call this._nextImg() 
@@ -62,26 +63,31 @@ class SimpleSlides extends HTMLElement {
     
   }
 
+  // Use this method to remove the interval/timer
   _removeTimer() {
     // use clearInterval() to remove your interval. You need to include the timer reference
 
   }
 
+  // This method is called when this component is added to the DOM
   connectedCallback() {
     // Call this._addTimer() here 
 
   }
 
+  // This method is called when this component is removed from the DOM
   disconnectedCallback() {
     // Call this._removeTimer() here. 
   }
   
+  // Use this list all properties that your element observes 
   static get observedAttributes() {
     // List the properties you component is observing here: 
     // time, transition...
     return []
   }
 
+  // Use this function handle changes to attributes on the custom element
   attributeChangedCallback(name, oldValue, newValue) {
     // Set properties when attributes change
     switch(name) {
@@ -106,8 +112,9 @@ class SimpleSlides extends HTMLElement {
     }
   }
 
+  // Use this function to advance to the next image or loop backl to the first image. 
   _nextImg() {
-    // Add 1 to index
+    // Add 1 to index if index is equal to the length of _imgs set it to 0. 
     // Set translate the inner div to width * index * -1
     // You need to translate the slides one slide width to the left 
     // each time this method is called. 
