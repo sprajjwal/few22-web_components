@@ -16,7 +16,7 @@ class HelloWorld extends HTMLElement {
     this._shadowRoot = this.attachShadow({ mode: 'open' });
     // open: Elements of the shadow root are accessible from JavaScript outside the root
     // closed: Denies access to the node(s) of a closed shadow root from JavaScript outside it
-    
+    console.log(document.querySelector('hello-world').value)
     // Make a new element to hold hello world
     this._el = document.createElement('h1')
     // Set the content of the new element
