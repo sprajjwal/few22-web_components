@@ -13,7 +13,7 @@ class BlinkText extends HTMLElement {
     this._blinkEl.innerHTML = this.innerHTML
 
     // Make a variable to track the state of the blink element
-
+    this._opacity = 1
     // Add any styles needed to the blink element
 
   }
@@ -21,13 +21,17 @@ class BlinkText extends HTMLElement {
   // Lifecycle method called when this component is appended to the DOM
   connectedCallback() {
     // Start the timer here 
-
+    this._blinkEl.style.transition = '200ms';
+    this._timer = setInterval(() => {
+      this._opacity = this._opacity === 1 ? 0 : 1
+      this._blinkEl.style.opacity = this._opacity
+    }, 1000)
   }
 
   // Lifecycle method called when the component is removed from the DOM
   disconnectedCallback() {
     // remove your timer here
-
+    clearInterval(this._timer)
   }
 }
 
