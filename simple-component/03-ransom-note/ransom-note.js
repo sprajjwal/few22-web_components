@@ -5,14 +5,25 @@ class RansomNote extends HTMLElement {
     super(); 
     this._shadowRoot = this.attachShadow({ mode: 'open' });
     
-    // Get the content of the element defined in the HTML document.
-    this._text = this.innerHTML
-    // Create a new element
-    this._el = document.createElement('span')
-    // Add the text of the original element to the new element.
-    this._el.innerHTML = this._text
-    // Append this element to the shadow root
-    this._shadowRoot.appendChild(this._el)
+    // Get the text of the host element this.innerHTML
+
+    // Split the string into an array of words text.split(' ')
+
+    // Loop over each word in the array
+
+      // Make a span 
+
+      // Set the innerHTML of the span to the current word 
+
+      // Set a random style for example: 
+      // span.style.fontSize = `${Math.random() * 20 + 12}px`
+      // Should set a fontSize between 12px and 32px
+
+      // Repeat the process above for as many styles as you can. For example: 
+      // span.style.transform = `rotate(${Math.random() * 40 - 20}deg)`
+      // WOuld generate a a rotation of -20deg to +20deg
+
+      // Append the word to the shadowroot
   }
 }
 
@@ -22,7 +33,7 @@ customElements.define('ransom-note', RansomNote);
 
 - Challenge - 1 - 
 
-We need a tag that generates text text that looks like a ransom note. 
+You need a tag that generates text that looks like a ransom note. 
 Each character needs a different style. The more random and different 
 you can make each of the characters the better. 
 

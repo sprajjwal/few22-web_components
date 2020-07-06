@@ -20,22 +20,27 @@ class BlinkText extends HTMLElement {
 
   // Tell this component it should look for changes to time
   static get observedAttributes() {
+    // Add observed attributs here
     return ['time'];
   }  
 
 
   // Handle changes to time
   attributeChangedCallback(name, oldValue, newValue) {
+    // When an observed attribute is changed this method is called with
+    // the name of the attibute, it's oldValue, and it's newValue
+    // Check the name, assign the newValue and do anything else needed. 
+    // If the time changes you'll need to remove the timer and start it again
     if (name === 'time') {
-      this._time = parseInt(newValue)
-      this._clearTimer()
-      this._addTimer()
+      this._time = parseInt(newValue) // set the time
+      this._clearTimer()  // clear any old Timers
+      this._addTimer() // add a new timer
     }
   }
 
 
   connectedCallback() {
-    // 
+    this._addTimer()
   }
 
 
@@ -47,8 +52,14 @@ class BlinkText extends HTMLElement {
   _addTimer() {
     this._blinkEl.style.transition = this._time + 'ms'
     this._timer = setInterval(() => {
+      // tracks the state of the element fading in 1 and fading out 0
       this._opacity = this._opacity === 1 ? 0 : 1
-      this._blinkEl.style.opacity = this._opacity
+      // Use the min and max properties here
+      if (this._opacity === 1) {
+        this._blinkEl.style.opacity = 1
+      } else {
+        this._blinkEl.style.opacity = 0
+      }
     }, this._time);
   }
 
@@ -95,9 +106,5 @@ so 1000 = 1 sec.
     - Then set the opacity of the element to: 
       - min if opacity is 0
       - max if opacity is 1
- 
-- Challenge - 2 - 
-
-
 
 */

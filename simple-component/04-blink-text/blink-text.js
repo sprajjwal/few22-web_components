@@ -12,16 +12,22 @@ class BlinkText extends HTMLElement {
     // Get the text in the original tag and put it in the P element
     this._blinkEl.innerHTML = this.innerHTML
 
+    // Make a variable to track the state of the blink element
+
+    // Add any styles needed to the blink element
+
   }
 
   // Lifecycle method called when this component is appended to the DOM
   connectedCallback() {
-    
+    // Start the timer here 
+
   }
 
   // Lifecycle method called when the component is removed from the DOM
   disconnectedCallback() {
-    
+    // remove your timer here
+
   }
 }
 

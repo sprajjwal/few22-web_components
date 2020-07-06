@@ -4,7 +4,20 @@ class rainbowText extends HTMLElement {
     super();
     this._shadowRoot = this.attachShadow({ mode: 'open' });
     
-    // 
+    // Get the text of the host element this.innerHTML
+
+    // Split the string into an array of words text.split(' ')
+
+    // Loop over each word in the array
+
+      // Make a span 
+
+      // Set the innerHTML of the span to the current word 
+
+      // Set the color of the span: span.style.color
+
+      // Append the word to the shadowroot
+
     
   }
 }
